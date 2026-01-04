@@ -190,6 +190,17 @@ def train_models(train_df):
     rf.fit(X,y)
     print("\n=== Random Forest ===\n",classification_report(y,rf.predict(X)))
 
+    # ------------------------------------
+    # SAVE RANDOM FOREST FEATURE IMPORTANCE
+    # ------------------------------------
+    rf_importance_df = pd.DataFrame({
+        "feature": feature_cols,
+        "importance": rf.feature_importances_
+    }).sort_values("importance", ascending=False)
+    rf_importance_df.to_csv("rf_feature_importances.csv", index=False)
+    print("Saved rf_feature_importances.csv")
+
+
     # LR
     scaler=StandardScaler()
     Xs = scaler.fit_transform(X)
